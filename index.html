@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazing Теле-Радио</title>
+    <style>
+        :root {
+            --main-color: #6a1b9a;
+            --secondary-color: #9c27b0;
+            --accent-color: #e1bee7;
+            --text-color: #333;
+            --light-text: #fff;
+            --error-color: #f44336;
+            --success-color: #4caf50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .auth-btn {
+            background-color: transparent;
+            border: 2px solid var(--light-text);
+            color: var(--light-text);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .auth-btn:hover {
+            background-color: var(--light-text);
+            color: var(--main-color);
+        }
+        
+        .container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        nav {
+            background-color: var(--light-text);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            padding: 15px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .nav-menu li a {
+            text-decoration: none;
+            color: var(--main-color);
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+        
+        .nav-menu li a:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Формы авторизации */
+        .auth-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 30px auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .auth-form h2 {
+            color: var(--main-color);
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .submit-btn {
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Редактор статей */
+        .editor-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .editor-toolbar button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .editor-toolbar button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        #article-editor {
+            min-height: 300px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        .publish-btn {
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .publish-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Контент */
+        .content-page {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .content-page h2 {
+            color: var(--main-color);
+            margin-top: 0;
+            font-size: 28px;
+        }
+        
+        /* Список статей */
+        .articles-list {
+            margin-top: 30px;
+        }
+        
+        .article-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .article-item h3 {
+            color: var(--main-color);
+            margin-top: 0;
+            font-size: 22px;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .article-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Админ панель */
+        .admin-panel {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .registration-requests {
+            margin-top: 20px;
+        }
+        
+        .request-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .request-info {
+            flex: 1;
+        }
+        
+        .request-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .approve-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .reject-btn {
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(200%);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background-color: var(--error-color);
+        }
+        
+        .notification.success {
+            background-color: var(--success-color);
+        }
+        
+        /* Футер */
+        footer {
+            background: var(--main-color);
+            color: var(--light-text);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Уведомления -->
+    <div id="notification" class="notification hidden"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">Теле-Радио Компания "Amazing"</div>
+            <div class="auth-buttons">
+                <button class="auth-btn" id="login-btn">Вход</button>
+                <button class="auth-btn" id="register-btn">Регистрация</button>
+                <button class="auth-btn hidden" id="logout-btn">Выход</button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#" data-page="main">Главное</a></li>
+                <li><a href="#" data-page="news">Новости</a></li>
+                <li class="hidden" id="create-article-item"><a href="#" data-page="create-article">Создать статью</a></li>
+                <li class="hidden" id="admin-panel-item"><a href="#" data-page="admin">Админ-панель</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Форма входа -->
+        <div class="auth-form hidden" id="login-form">
+            <h2>Вход в аккаунт</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login-username">Логин</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="submit-btn">Войти</button>
+            </form>
+        </div>
+        
+        <!-- Форма регистрации -->
+        <div class="auth-form hidden" id="register-form">
+            <h2>Регистрация</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="reg-email">Ваш Email</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-nickname">Ваш игровой ник</label>
+                    <input type="text" id="reg-nickname" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-username">Придумайте Логин</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Придумайте пароль</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password-confirm">Повторите пароль</label>
+                    <input type="password" id="reg-password-confirm" required>
+                </div>
+                <button type="submit" class="submit-btn">Отправить заявку</button>
+            </form>
+        </div>
+        
+        <!-- Редактор статей -->
+        <div class="editor-container hidden" id="article-editor-container">
+            <h2>Создание новой статьи</h2>
+            <div class="editor-toolbar">
+                <button type="button" data-command="bold"><b>Ж</b></button>
+                <button type="button" data-command="italic"><i>К</i></button>
+                <button type="button" data-command="underline"><u>Ч</u></button>
+                <button type="button" data-command="insertUnorderedList">• Список</button>
+                <button type="button" data-command="insertOrderedList">1. Список</button>
+            </div>
+            <div id="article-editor" contenteditable="true"></div>
+            <button class="publish-btn" id="publish-btn">Опубликовать</button>
+        </div>
+        
+        <!-- Админ панель -->
+        <div class="admin-panel hidden" id="admin-panel">
+            <h2>Админ-панель</h2>
+            
+            <h3>Заявки на регистрацию</h3>
+            <div class="registration-requests" id="registration-requests">
+                <!-- Заявки будут добавляться сюда -->
+            </div>
+        </div>
+        
+        <!-- Основной контент -->
+        <div class="content-page" id="main-content">
+            <h2>Добро пожаловать на Amazing Теле-Радио!</h2>
+            <p>Здесь вы можете создавать и читать новости, написанные игроками нашего сообщества.</p>
+            
+            <div class="articles-list" id="articles-list">
+                <!-- Статьи будут добавляться сюда -->
+            </div>
+        </div>
+        
+        <!-- Новости -->
+        <div class="content-page hidden" id="news-content">
+            <h2>Все новости</h2>
+            <div class="articles-list" id="news-list">
+                <!-- Новости будут добавляться сюда -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Создано для Amazing online | Сервер Azure</p>
+    </footer>
+    
+    <script>
+        // База данных
+        const users = [
+            { 
+                id: 1, 
+                username: 'Admin', 
+                password: '!qzwxecrvasdf654!', 
+                email: 'admin@amazing.com', 
+                nickname: 'Администратор', 
+                role: 'admin',
+                approved: true
+            }
+        ];
+        
+        let registrationRequests = [];
+        let articles = [];
+        let currentUser = null;
+        
+        // DOM элементы
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const articleEditor = document.getElementById('article-editor-container');
+        const mainContent = document.getElementById('main-content');
+        const newsContent = document.getElementById('news-content');
+        const adminPanel = document.getElementById('admin-panel');
+        const articlesList = document.getElementById('articles-list');
+        const newsList = document.getElementById('news-list');
+        const registrationRequestsList = document.getElementById('registration-requests');
+        const createArticleItem = document.getElementById('create-article-item');
+        const adminPanelItem = document.getElementById('admin-panel-item');
+        const notification = document.getElementById('notification');
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            loadArticles();
+        });
+        
+        // Обработчики событий
+        loginBtn.addEventListener('click', () => {
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+        });
+        
+        registerBtn.addEventListener('click', () => {
+            registerForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+        
+        logoutBtn.addEventListener('click', logout);
+        
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const user = users.find(u => u.username === username && u.password === password && u.approved);
+            
+            if (user) {
+                currentUser = user;
+                updateUI();
+                loginForm.classList.add('hidden');
+                document.getElementById('login-username').value = '';
+                document.getElementById('login-password').value = '';
+                showNotification('Вы успешно вошли в систему', 'success');
+            } else {
+                showNotification('Неверный логин или пароль', 'error');
+            }
+        });
+        
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('reg-email').value;
+            const nickname = document.getElementById('reg-nickname').value;
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-password-confirm').value;
+            
+            if (password !== confirmPassword) {
+                showNotification('Пароли не совпадают', 'error');
+                return;
+            }
+            
+            if (users.some(u => u.username === username)) {
+                showNotification('Пользователь с таким логином уже существует', 'error');
+                return;
+            }
+            
+            if (users.some(u => u.email === email)) {
+                showNotification('Пользователь с таким email уже существует', 'error');
+                return;
+            }
+            
+            const newRequest = {
+                id: registrationRequests.length + 1,
+                email,
+                nickname,
+                username,
+                password,
+                date: new Date().toLocaleString()
+            };
+            
+            registrationRequests.push(newRequest);
+            
+            // Очистка формы
+            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-nickname').value = '';
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-password-confirm').value = '';
+            
+            registerForm.classList.add('hidden');
+            showNotification('Заявка на регистрацию отправлена администратору', 'success');
+            
+            // Обновляем список заявок, если админ авторизован
+            if (currentUser && currentUser.role === 'admin') {
+                loadRegistrationRequests();
+            }
+        });
+        
+        document.getElementById('publish-btn').addEventListener('click', () => {
+            const content = document.getElementById('article-editor').innerHTML;
+            
+            if (!content.trim()) {
+                showNotification('Статья не может быть пустой', 'error');
+                return;
+            }
+            
+            const newArticle = {
+                id: articles.length + 1,
+                authorId: currentUser.id,
+                authorName: currentUser.nickname,
+                title: 'Статья от ' + currentUser.nickname,
+                content,
+                date: new Date().toLocaleDateString()
+            };
+            
+            articles.push(newArticle);
+            document.getElementById('article-editor').innerHTML = '';
+            articleEditor.classList.add('hidden');
+            loadArticles();
+            showNotification('Статья успешно опубликована', 'success');
+        });
+        
+        // Навигация
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = e.target.getAttribute('data-page');
+                
+                if (page === 'create-article') {
+                    if (!currentUser) {
+                        showNotification('Войдите в аккаунт, чтобы выкладывать статьи', 'error');
+                        return;
+                    }
+                    articleEditor.classList.remove('hidden');
+                    mainContent.classList.add('hidden');
+                    newsContent.classList.add('hidden');
+                    adminPanel.classList.add('hidden');
+                } else if (page === 'news') {
+                    articleEditor.classList.add('hidden');
+                    mainContent.classList.add('hidden');
+                    newsContent.classList.remove('hidden');
+                    adminPanel.classList.add('hidden');
+                } else if (page === 'admin') {
+                    if (currentUser && currentUser.role === 'admin') {
+                        articleEditor.classList.add('hidden');
+                        mainContent.classList.add('hidden');
+                        newsContent.classList.add('hidden');
+                        adminPanel.classList.remove('hidden');
+                        loadRegistrationRequests();
+                    } else {
+                        showNotification('Доступ запрещен', 'error');
+                    }
+                } else {
+                    articleEditor.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    newsContent.classList.add('hidden');
+                    adminPanel.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Функции
+        function updateUI() {
+            if (currentUser) {
+                loginBtn.classList.add('hidden');
+                registerBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+                createArticleItem.classList.remove('hidden');
+                
+                if (currentUser.role === 'admin') {
+                    adminPanelItem.classList.remove('hidden');
+                } else {
+                    adminPanelItem.classList.add('hidden');
+                }
+            } else {
+                loginBtn.classList.remove('hidden');
+                registerBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+                createArticleItem.classList.add('hidden');
+                adminPanelItem.classList.add('hidden');
+            }
+        }
+        
+        function logout() {
+            currentUser = null;
+            updateUI();
+            articleEditor.classList.add('hidden');
+            adminPanel.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+            newsContent.classList.add('hidden');
+            showNotification('Вы вышли из системы', 'success');
+        }
+        
+        function loadArticles() {
+            articlesList.innerHTML = '';
+            newsList.innerHTML = '';
+            
+            if (articles.length === 0) {
+                articlesList.innerHTML = '<p>Пока нет статей. Будьте первым!</p>';
+                newsList.innerHTML = '<p>Новостей пока нет</p>';
+                return;
+            }
+            
+            articles.forEach(article => {
+                const articleEl = document.createElement('div');
+                articleEl.className = 'article-item';
+                articleEl.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <div class="article-meta">Автор: ${article.authorName} | Дата: ${article.date}</div>
+                    <div class="article-content">${article.content}</div>
+                `;
+                
+                articlesList.appendChild(articleEl.cloneNode(true));
+                newsList.appendChild(articleEl.cloneNode(true));
+            });
+        }
+        
+        function loadRegistrationRequests() {
+            registrationRequestsList.innerHTML = '';
+            
+            if (registrationRequests.length === 0) {
+                registrationRequestsList.innerHTML = '<p>Нет заявок на регистрацию</p>';
+                return;
+            }
+            
+            registrationRequests.forEach(request => {
+                const requestEl = document.createElement('div');
+                requestEl.className = 'request-item';
+                requestEl.innerHTML = `
+                    <div class="request-info">
+                        <strong>${request.username}</strong> (${request.nickname})
+                        <div>${request.email}</div>
+                        <small>${request.date}</small>
+                    </div>
+                    <div class="request-actions">
+                        <button class="approve-btn" data-id="${request.id}">Одобрить</button>
+                        <button class="reject-btn" data-id="${request.id}">Отклонить</button>
+                    </div>
+                `;
+                
+                registrationRequestsList.appendChild(requestEl);
+            });
+            
+            // Обработчики для кнопок одобрения/отклонения
+            document.querySelectorAll('.approve-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const requestId = parseInt(btn.getAttribute('data-id'));
+                    approveRegistration(requestId);
+                });
+            });
+            
+            document.querySelectorAll('.reject-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const requestId = parseInt(btn.getAttribute('data-id'));
+                    rejectRegistration(requestId);
+                });
+            });
+        }
+        
+        function approveRegistration(requestId) {
+            const requestIndex = registrationRequests.findIndex(r => r.id === requestId);
+            if (requestIndex === -1) return;
+            
+            const request = registrationRequests[requestIndex];
+            
+            const newUser = {
+                id: users.length + 1,
+                username: request.username,
+                password: request.password,
+                email: request.email,
+                nickname: request.nickname,
+                role: 'user',
+                approved: true
+            };
+            
+            users.push(newUser);
+            registrationRequests.splice(requestIndex, 1);
+            
+            loadRegistrationRequests();
+            showNotification('Заявка одобрена', 'success');
+        }
+        
+        function rejectRegistration(requestId) {
+            const requestIndex = registrationRequests.findIndex(r => r.id === requestId);
+            if (requestIndex === -1) return;
+            
+            registrationRequests.splice(requestIndex, 1);
+            loadRegistrationRequests();
+            showNotification('Заявка отклонена', 'success');
+        }
+        
+        function showNotification(message, type) {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
